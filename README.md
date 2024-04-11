@@ -20,14 +20,26 @@ The goal of this project was to implement object detection into robotics station
 * Robots: ABB IRB1200 and ABB IRB2600
 * Simulation: ABB RobotStudio
 * Communication: Sockets
+* Hardware: Dell Precision 3581 with NVIDIA RTX 2000 ADA graphics card 
 
+  
 ## Process description
 
-1. a set of random ordered packages come into the station
-2. a small robot goes above conveyor and  start the camera placed on its gripper
-3. trained model looks for the manufacturer's logo
-4. a type of detected object together with coordinates of the center point are sent to robot
-5. robot picks up the package with vaccum gripper and place it into proper box.
-6. When a box is filled with 16 packages of specific type of the chips big robot picks up full box and place it on output conveyr. 
+* a set of random ordered packages come into the station
+* a small robot goes above conveyor and  start the camera placed on its gripper
+* trained model looks for the manufacturer's logo
+* a type of detected object together with coordinates of the center point are sent to robot
+* robot picks up the package with vaccum gripper and place it into proper box.
+* When a box is filled with 16 packages of specific type of the chips big robot picks up full box and place it on output conveyr.
 
-## Process description
+
+## insights
+
+### Python Code 
+The project consist of a  
+Initially, I aimed to utilize Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational power limitations of my computer, I decided to opt for SSD (Single Shot Detector) for object detection. It just worked better in the real time object detection.
+
+### Robotic side
+Programs for both robots were created from scratch by me. 
+
+
