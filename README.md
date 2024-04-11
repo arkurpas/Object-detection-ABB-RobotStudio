@@ -13,7 +13,7 @@ youtube_link
 ## About...
 The goal of this project was to implement object detection into robotics station. 
 
-* Model: fine tunned Single Shot Detector (SSD)
+* Model: Single Shot Detector (SSD)
 * Library: PyTorch
 * Dataset: 60 captured images
 * Annotation: Roboflow
@@ -21,6 +21,13 @@ The goal of this project was to implement object detection into robotics station
 * Simulation: ABB RobotStudio
 * Communication: Sockets
 
-  ## Process description
+## Process description
 
-A small robot goes above conveyor where boxes with chips in come. In that posstion robot starts camera (for simulation purpose it was a computer webcamera). Loaded neural network looks for object it was trained for. If the object is found robot reccive information regarding type of detected object and its center point. 
+1. a set of random ordered packages come into the station
+2. a small robot goes above conveyor and  start the camera placed on its gripper
+3. trained model looks for the manufacturer's logo
+4. a type of detected object together with coordinates of the center point are sent to robot
+5. robot picks up the package with vaccum gripper and place it into proper box.
+6. When a box is filled with 16 packages of specific type of the chips big robot picks up full box and place it on output conveyr. 
+
+## Process description
