@@ -27,7 +27,7 @@ The goal of this project was to implement the object detection and recognition m
 ## Process description
 
 * randomly ordered packages arrive at robotics station
-* small robot goes above conveyor and turn on camera placed on its gripper
+* small robot goes above conveyor and turn on camera placed on robot's gripper
 * trained model looks for the manufacturer's logo
 * a type of detected object together with coordinates of the center point are sent to robot
 * robot picks up the package with a vaccum gripper and place it into proper box.
