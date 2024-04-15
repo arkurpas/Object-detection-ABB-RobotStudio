@@ -37,7 +37,9 @@ The goal of this project was to implement object detection into robotics station
 ## insights
 
 As a robotics engineer with a passion for AI i wanted to connect both worlds. This led me to an idea of implementing object detection into robotics station. 
+
 By starting a camera_main.py program a server for a socket communication between python code and robot code is created. When a small robot send a "send_to_robot" message a camera is started. Loaded SSD model looks for manufacturer's logo. When an object is detected a type of the object and the coordinates of center point are sent to robot. Then in the robot program the message is converted into appropriate format. Based on that infromation robot drop a pacckage of chips into a proper box.  
+
 Initially, I aimed to utilize Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational power limitations of my computer, Icided to de opt for SSD (Single Shot Detector) for object detection. It just worked better in the real time object detection. Also I planned to add a functionality for adjusting the robot's pickup position based on the product's position in the box . However, due to the difficulty in demonstrating this using a computer camera, it was not implemented. From robotics perspective the only thing which needs to be done is to change a work object frame according to reciverd coordinates. For sure many more factors must be taken into account when an object is tilted or rotated. It is important to properly process the image.
 
 This project is just an example of deep learning usage, however there are many real world robot application where object detection could be implemented. Fine tunning or transfer learning are incredible for detecting, segmentig anything we want.
