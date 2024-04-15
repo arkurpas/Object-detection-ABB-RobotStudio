@@ -8,7 +8,7 @@
 
 
 ## See it in action
-[youtube_link](https://www.youtube.com/watch?v=YAWKSnbmhUU)
+https://www.youtube.com/watch?v=YAWKSnbmhUU
 
 ## About...
 The goal of this project was to implement object detection into robotics station. 
