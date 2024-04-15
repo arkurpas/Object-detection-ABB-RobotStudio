@@ -24,7 +24,7 @@ The goal of this project was to implement object detection into robotics station
 * Hardware: Dell Precision 3581 with NVIDIA RTX 2000 ADA graphics card 
 
   
-## Process description
+## Proccess description
 
 * a set of random ordered packages come into the station
 * a small robot goes above conveyor and  start the camera placed on its gripper
@@ -48,12 +48,12 @@ This project is just an example of deep learning usage, however there are many r
 * model.py - code responsible for training a model. It contains fonction for loading SSD model but also Faster RCNN and mask RCNN.
 * k-mean-filtering.py - code responsible for clustering some of input pictures.
 * model_evaluation.py - a code to test how model works with unseed images.
-* polygon2mask.py - a code which loads an XML file creaded after annotation process and based on polygon coordinates create a mask for each picture. Each mask has its own color in grayscale. This was a preparation step for training mask-RCNN model.
+* polygon2mask.py - a code which loads an XML file creaded after annotation proccess and based on polygon coordinates create a mask for each picture. Each mask has its own color in grayscale. This was a preparation step for training mask-RCNN model.
 folders:
 Robots_programs - contain modules with robots programs
 from_camera_image - object detection example
-my_pictures.v8i.voc - dataset. Containing images obtained after augmentation process in roboflow.
-recorded_simulation - compelete simulation of process.
+my_pictures.v8i.voc - dataset. Containing images obtained after augmentation proccess in roboflow.
+recorded_simulation - compelete simulation of proccess.
 
 
 
