@@ -51,6 +51,7 @@ This project is just an example of deep learning usage, however there are many r
 * k-mean-filtering.py - code responsible for clustering some of input pictures.
 * model_evaluation.py - a code to test how model works with unseed images.
 * polygon2mask.py - a code which loads an XML file creaded after annotation proccess and based on polygon coordinates create a mask for each picture. Each mask has its own color in grayscale. This was a preparation step for training mask-RCNN model.
+* 
 folders:
 Robots_programs - contain modules with robots programs
 from_camera_image - object detection example
