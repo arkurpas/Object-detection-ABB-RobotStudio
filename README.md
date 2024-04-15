@@ -53,10 +53,10 @@ This project is just an example of deep learning usage, however there are many r
 * polygon2mask.py - a code which loads an XML file creaded after annotation proccess and based on polygon coordinates create a mask for each picture. Each mask has its own color in grayscale. This was a preparation step for training mask-RCNN model.
 * 
 folders:
-Robots_programs - contain modules with robots programs
-from_camera_image - object detection example
-my_pictures.v8i.voc - dataset. Containing images obtained after augmentation proccess in roboflow.
-recorded_simulation - compelete simulation of proccess.
+* Robots_programs - contain modules with robots programs
+* from_camera_image - object detection example
+* my_pictures.v8i.voc - dataset. Containing images obtained after augmentation proccess in roboflow.
+* recorded_simulation - compelete simulation of proccess.
 
 
 
