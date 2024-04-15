@@ -12,7 +12,7 @@ https://www.youtube.com/watch?v=YAWKSnbmhUU
 
 (a video with a walkthrough is coming)
 
-## About...
+## In short...
 The goal of this project was to implement object detection into robotics station. 
 
 * Model: Single Shot Detector (SSD)
