@@ -42,22 +42,22 @@ The objective of this project was to deploy object detection and recognition mod
 
   Initially, I intended to use Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational limitations of my computer, I opted for SSD (Single Shot Detector) as it performed better in real-time object detection. Additionally, I planned to incorporate functionality to adjust the robot's pickup position based on the product's position in the box. However, due to the difficulty in demonstrating this using a computer camera, it was not implemented. From a robotics perspective, the only necessary adjustment is to change the work object frame according to the received coordinates. Certainly, additional considerations must be made for tilted or rotated objects. Proper image processing is crucial.
 
-  This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecvting and segmenting various objects.
+  This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecting and segmenting various objects.
 
 
 ## Files description
 
-* camera_main.py - the main program that needs to be launched before starting robots in RobotStudio. It establishes a host server for socket communication between Python and robot code (RAPID language). When the robot sends a message to a socket host, the camera activates to detect an object placed in front of it.
+* camera_main.py - the main program that needs to be launched before running robots in RobotStudio. It establishes a host server for socket communication between Python and robot code (RAPID language). When the robot sends a message to a socket host, the camera activates to detect an object placed in front of it.
 * model.py - code responsible for model training. It includes functions for loading the SSD model as well as Faster R-CNN and Mask R-CNN.
 * k-mean-filtering.py - code responsible for clustering some input pictures.
 * model_evaluation.py - code to evaluate the model's performance with unseen images.
 * polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model.
   
-folders
+Folders:
 
 * Robots_programs - contain modules with robots programs
 * from_camera_image - object detection example
-* my_pictures.v8i.voc - dataset. Containing images obtained after augmentation process in roboflow.
+* my_pictures.v8i.voc - dataset; contain images obtained after augmentation process in roboflow.
 * recorded_simulation - compelete simulation of process.
 
 
