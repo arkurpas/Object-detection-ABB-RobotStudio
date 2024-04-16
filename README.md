@@ -12,8 +12,8 @@ https://www.youtube.com/watch?v=YAWKSnbmhUU
 
 (a video with a walkthrough is coming)
 
-## In short...
-The goal of this project was to implement the object detection and recognition model for robotics using computer vision techniques.
+## In short
+The aim of this project was to implement object detection and recognition models for robotics using computer vision techniques.
 
 * Model: Single Shot Detector (SSD)
 * Library: PyTorch
@@ -25,34 +25,70 @@ The goal of this project was to implement the object detection and recognition m
 
   
 ## Process description
-
-* randomly ordered packages arrive at robotics station
-* small robot goes above conveyor and turns on camera placed on robot's gripper
-* trained model enables manufacturer's logo detection
-* type and coordinates of the center point of detected object are sent to robot
-* robot picks up the package with a vacuum gripper and place it into a proper box.
-* When a box is filled with 16 packages of specific type of the chips big robot picks up full box and place it on output conveyr.
-
+  
+* Randomly ordered packages arrive at the robotics station.
+* A small robot approaches the conveyor and activates the camera mounted on its gripper.
+* The trained model enables the detection of the manufacturer's logo.
+* The type and coordinates of the detected object's center point are transmitted to the robot.
+* The robot picks up the package with a vacuum gripper and places it into the appropriate box.
+* When a box is filled with 16 packages of a specific type of chips, the large robot picks up the full box and places it on the output conveyor.
 
 ## insights
 
-As a robotics engineer with a passion for AI i wanted to connect both worlds. This led me to an idea of implementing object detection into robotics station. 
+As a robotics engineer with a passion for AI, I aimed to bridge both domains. This led to the idea of implementing object detection within the robotics station.
 
-By starting a camera_main.py program a server for a socket communication between python code and robot code is created. When a small robot send a "send_to_robot" message a camera is started. Loaded SSD model looks for manufacturer's logo. When an object is detected a type of the object and the coordinates of center point are sent to robot. Then in the robot program the message is converted into appropriate format. Based on that infromation robot drop a pacckage of chips into a proper box.  
+By initiating the camera_main.py program, a server for socket communication between Python code and robot code is established. When a small robot sends a "send_to_robot" message, the camera activates. The loaded SSD model searches for the manufacturer's logo. Upon detecting an object, the type of the object and its center point coordinates are sent to the robot. Subsequently, in the robot's program, the message is converted into an appropriate format. Based on this information, the robot places a package of chips into the correct box.
 
-Initially, I aimed to utilize Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational power limitations of my computer, Icided to opt for SSD (Single Shot Detector) for object detection. It just worked better in the real time object detection. Also I planned to add a functionality for adjusting the robot's pickup position based on the product's position in the box . However, due to the difficulty in demonstrating this using a computer camera, it was not implemented. From robotics perspective the only thing which needs to be done is to change a work object frame according to reciverd coordinates. For sure many more factors must be taken into account when an object is tilted or rotated. It is important to properly process the image.
+Initially, I intended to use Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational limitations of my computer, I opted for SSD (Single Shot Detector) for object detection, as it performed better in real-time object detection. Additionally, I planned to incorporate functionality to adjust the robot's pickup position based on the product's position in the box. However, due to the difficulty in demonstrating this using a computer camera, it was not implemented. From a robotics perspective, the only necessary adjustment is to change the work object frame according to the received coordinates. Certainly, additional considerations must be made for tilted or rotated objects. Proper image processing is crucial.
 
-This project is just an example of deep learning usage, however there are many real world robot application where object detection could be implemented. Fine tunning or transfer learning are incredible for detecting, segmentig anything we want.
+This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecvting and segmenting various objects.
 
 
 ## Files description
-* camera_main.py - main program which needs to be started before starting robotos in RobotStudio. It creates a host server for socket communication between python and robot code (RAPID language). When the robot send a message to a socket host it starts a camera to detect an object placed in front of the camera.
-* model.py - code responsible for training a model. It contains fonction for loading SSD model but also Faster RCNN and mask RCNN.
-* k-mean-filtering.py - code responsible for clustering some of input pictures.
-* model_evaluation.py - a code to test how model works with unseed images.
-* polygon2mask.py - a code which loads an XML file creaded after annotation process and based on polygon coordinates create a mask for each picture. Each mask has its own color in grayscale. This was a preparation step for training mask-RCNN model.
-* 
+
+Of course, here's the revised text:
+
+In short...
+
+The aim of this project was to implement object detection and recognition models for robotics using computer vision techniques.
+
+Model: Single Shot Detector (SSD)
+Library: PyTorch
+Dataset: 60 captured images
+Annotation: Roboflow
+Robots: ABB IRB1200 and ABB IRB2600
+Simulation: ABB RobotStudio
+Hardware: Dell Precision 3581 with NVIDIA RTX 2000 ADA graphics card
+
+Process description:
+
+Randomly ordered packages arrive at the robotics station.
+A small robot approaches the conveyor and activates the camera mounted on its gripper.
+The trained model enables the detection of the manufacturer's logo.
+The type and coordinates of the detected object's center point are transmitted to the robot.
+The robot picks up the package with a vacuum gripper and places it into the appropriate box.
+When a box is filled with 16 packages of a specific type of chips, the large robot picks up the full box and places it on the output conveyor.
+
+Insights:
+
+As a robotics engineer with a passion for AI, I aimed to bridge both domains. This led to the idea of implementing object detection within the robotics station.
+
+By initiating the camera_main.py program, a server for socket communication between Python code and robot code is established. When a small robot sends a "send_to_robot" message, the camera activates. The loaded SSD model searches for the manufacturer's logo. Upon detecting an object, the type of the object and its center point coordinates are sent to the robot. Subsequently, in the robot's program, the message is converted into an appropriate format. Based on this information, the robot places a package of chips into the correct box.
+
+Initially, I intended to use Faster R-CNN for object detection and Mask R-CNN for segmentation. However, due to the computational limitations of my computer, I opted for SSD (Single Shot Detector) for object detection, as it performed better in real-time object detection. Additionally, I planned to incorporate functionality to adjust the robot's pickup position based on the product's position in the box. However, due to the difficulty in demonstrating this using a computer camera, it was not implemented. From a robotics perspective, the only necessary adjustment is to change the work object frame according to the received coordinates. Certainly, additional considerations must be made for tilted or rotated objects. Proper image processing is crucial.
+
+This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecting and segmenting various objects.
+
+Files description:
+
+* camera_main.py - the main program that needs to be launched before starting robots in RobotStudio. It establishes a host server for socket communication between Python and robot code (RAPID language). When the robot sends a message to a socket host, the camera activates to detect an object placed in front of it.
+* model.py - code responsible for model training. It includes functions for loading the SSD model as well as Faster R-CNN and Mask R-CNN.
+* k-mean-filtering.py - code responsible for clustering some input pictures.
+* model_evaluation.py - code to evaluate the model's performance with unseen images.
+* polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model.
+  
 folders:
+
 * Robots_programs - contain modules with robots programs
 * from_camera_image - object detection example
 * my_pictures.v8i.voc - dataset. Containing images obtained after augmentation process in roboflow.
