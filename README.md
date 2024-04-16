@@ -13,7 +13,7 @@ https://www.youtube.com/watch?v=YAWKSnbmhUU
 (The video walkthrough will be available soon.)
 
 ## In short
-The aim of this project was to implement object detection and recognition models for robotics using computer vision techniques.
+The objective of this project was to deploy object detection and recognition models in robotics through the application of computer vision techniques.
 
 * Model: Single Shot Detector (SSD)
 * Library: PyTorch
