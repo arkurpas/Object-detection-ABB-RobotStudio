@@ -51,7 +51,8 @@ The objective of this project was to deploy object detection and recognition mod
 * model.py - code responsible for model training. It includes functions for loading the SSD model as well as Faster R-CNN and Mask R-CNN.
 * k-mean-filtering.py - code responsible for clustering some input pictures.
 * model_evaluation.py - code to evaluate the model's performance with unseen images.
-* polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model.
+* polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model. Finnaly segmentation was not used in this project, but I left this piece od code because it can be used anytime.
+* OCR.py - The code is responsible for locating a specific word. While it's not utilized in the main program, the concept was to search for previously defined flavors within images
   
 Folders:
 
