@@ -31,7 +31,7 @@ The objective of this project was to deploy object detection and recognition mod
 * The trained model enables the detection of the manufacturer's logo.
 * The type and coordinates of the detected object's center point are transmitted to the robot.
 * The robot picks up the package with a vacuum gripper and places it into the appropriate box.
-* When a box is filled with 16 packages of a specific type of chips, the large robot picks up the full box and places it on the output conveyor.
+* When a box is filled with 16 packages of a specific type of chips, the large robot picks it up and places it on the output conveyor.
 
 
 ## Insights
