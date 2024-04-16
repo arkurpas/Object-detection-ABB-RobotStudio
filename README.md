@@ -10,7 +10,7 @@
 ## See it in action
 https://www.youtube.com/watch?v=YAWKSnbmhUU
 
-(The video walkthrough will be available soon.)
+(The  walkthrough video will be available soon.)
 
 ## In short
 The objective of this project was to deploy object detection and recognition models in robotics through the application of computer vision techniques.
