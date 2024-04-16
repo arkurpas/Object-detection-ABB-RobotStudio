@@ -34,7 +34,7 @@ The objective of this project was to deploy object detection and recognition mod
 * When a box is filled with 16 packages of a specific type of chips, the large robot picks up the full box and places it on the output conveyor.
 
 
-## insights
+## Insights
 
   As a robotics engineer with a passion for AI, I aimed to bridge both domains. This led to the idea of implementing object detection within the robotics station.
 
@@ -45,7 +45,7 @@ The objective of this project was to deploy object detection and recognition mod
   This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecvting and segmenting various objects.
 
 
-## Files description:
+## Files description
 
 * camera_main.py - the main program that needs to be launched before starting robots in RobotStudio. It establishes a host server for socket communication between Python and robot code (RAPID language). When the robot sends a message to a socket host, the camera activates to detect an object placed in front of it.
 * model.py - code responsible for model training. It includes functions for loading the SSD model as well as Faster R-CNN and Mask R-CNN.
@@ -53,7 +53,7 @@ The objective of this project was to deploy object detection and recognition mod
 * model_evaluation.py - code to evaluate the model's performance with unseen images.
 * polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model.
   
-folders:
+folders
 
 * Robots_programs - contain modules with robots programs
 * from_camera_image - object detection example
