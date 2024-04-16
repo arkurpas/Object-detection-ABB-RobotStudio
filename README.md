@@ -10,7 +10,7 @@
 ## See it in action
 https://www.youtube.com/watch?v=YAWKSnbmhUU
 
-(a video with a walkthrough is coming)
+(The video walkthrough will be available soon.)
 
 ## In short
 The aim of this project was to implement object detection and recognition models for robotics using computer vision techniques.
