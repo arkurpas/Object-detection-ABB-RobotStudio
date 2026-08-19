@@ -150,7 +150,7 @@ MODULE ObjectDetection
         okX:=StrToVal(x_string,x_num);
 
         y_string:=StrPart(received_string,found+1,len_received_string-found);
-        okX:=StrToVal(x_string,y_num);
+        oky:=StrToVal(y_string,y_num);
 
 
         MoveJ offs(Target_460,nToTwoCounter*xOffset_Pick,0,-100),v1000,fine,tVaccum\WObj:=wPick;

@@ -79,17 +79,14 @@ def process_folder(folder_path):
             image = cv2.imread(image_file, 1)
             objects_coords = parse_xml(xml_file)
 
-            # Initialize empty mask for all classes
+            # Initialize empty mask for all classes. create_mask draws into it
+            # in place, so the same array accumulates every class's polygons.
             mask = np.zeros(image.shape[:2], dtype=np.uint8)
-
-            # Iterate over all classes and their polygons
             for name, polygons in objects_coords.items():
-                # Create mask for the class and add it to the overall mask
-                class_mask = create_mask(mask, name, polygons)
+                create_mask(mask, name, polygons)
 
-            # Save the overall mask
-            cv2.imwrite(os.path.join(folder_path, f"{file_name.replace('.xml', '_mask.png')}"), class_mask)
+            cv2.imwrite(os.path.join(folder_path, f"{file_name.replace('.xml', '_mask.png')}"), mask)
 
 
-folder_path = "../show"
-process_folder(folder_path)
+if __name__ == "__main__":
+    process_folder("my_pictures.v8i.voc/train")
