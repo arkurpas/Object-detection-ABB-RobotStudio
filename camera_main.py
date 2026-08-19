@@ -1,10 +1,8 @@
 import time
 import cv2
 import torch
-import torchvision.transforms as transforms
-from model import GLOBAL_VAR, get_model_object_detection
+from model import GLOBAL_VAR, get_model_object_detection, LabelConverter
 from torchvision.transforms import v2 as T
-import easyocr
 import socket
 from queue import Queue
 
@@ -22,72 +20,42 @@ class ObjectDetector:
         self.num_classes = num_classes
         self.model = self.load_model()
 
-        self.transform = transforms.Compose([
-            T.ToDtype(torch.float, scale=True),
-            transforms.ToTensor()
+        # The model was trained on RGB images loaded via torchvision.io.read_image,
+        # so incoming frames must be converted from OpenCV's BGR before this runs.
+        self.transform = T.Compose([
+            T.ToImage(),
+            T.ToDtype(torch.float32, scale=True),
         ])
 
     def load_model(self):
         """Load the object detection model."""
         model = get_model_object_detection(num_classes=self.num_classes)
-        model.load_state_dict(torch.load(self.model_path))
+        model.load_state_dict(torch.load(self.model_path, map_location="cpu"))
         model.eval()
         return model
 
     def detect_and_segment(self, image):
-        """Detect and segment objects in the image."""
+        """Detect and segment objects in an RGB image."""
         input_tensor = self.transform(image).unsqueeze(0)
         with torch.no_grad():
             output = self.model(input_tensor)
         return output
 
 
-class TextRecognizer:
-    def __init__(self, search_words):
-        self.search_words = search_words
-        self.found_word = None
-
-    def recognize_text(self, image):
-        reader = easyocr.Reader(['en', 'pl'], gpu=True)
-        result = reader.readtext(image)
-        return result
-
-    def find_word(self, frame):
-        for detection in self.recognize_text(frame):
-            text = detection[1]
-            if text in self.search_words:
-                self.found_word = text
-                return True
-        return False
-
-    def run(self, frame):
-        if self.find_word(frame):
-            print("Found word:", self.found_word)
-            return True
-        return False
-
-
-class LabelConverter:
-    """Class for converting labels to names."""
-    @staticmethod
-    def label_to_name(label):
-        """Convert label to name."""
-        if label == 1:
-            return 'Crunchips'
-        elif label == 2:
-            return "Lay's"
-        return str(label)
-
 def start_camera(q_out, detector, label_converter):
     """Function to start the camera and perform object detection."""
     cap = cv2.VideoCapture(0)
+    if not cap.isOpened():
+        print("Could not open camera.")
+        return
     time.sleep(1)
     while True:
         ret, frame = cap.read()
         if not ret:
             break
         cv2.imshow('Camera Feed', frame)
-        output = detector.detect_and_segment(frame)
+        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        output = detector.detect_and_segment(rgb_frame)
         for box, score, label in zip(output[0]['boxes'], output[0]['scores'], output[0]['labels']):
             if score > 0.8:
                 cv2.rectangle(frame, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
@@ -101,7 +69,7 @@ def start_camera(q_out, detector, label_converter):
                 cv2.putText(frame, f"{class_name} {class_score}", (int(box[0]), int(box[1]) - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 0), 2)
 
-                data = str(f"{label}{center_point[0]}-{center_point[1]}").encode()
+                data = str(f"{label.item()}{center_point[0]}-{center_point[1]}").encode()
                 q_out.put(data)
                 cv2.destroyWindow('Camera Feed')
                 cv2.imwrite("from_camera_image/camera_save.jpg", frame)
@@ -125,7 +93,6 @@ def main():
 
     detector = ObjectDetector(MODEL_PATH)
     label_converter = LabelConverter()
-    # taste_detector = TextRecognizer(['Paprika', 'Green Onion', 'Ser-Cebula', 'Papryka'])
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT))
@@ -133,18 +100,28 @@ def main():
         print(f"Server listening on {HOST}:{PORT}")
         conn, addr = s.accept()
         print(f"Connected by {addr}")
-        while True:
-            try:
-                message = conn.recv(1024).decode()
-                print(message)
+        with conn:
+            while True:
+                try:
+                    message = conn.recv(1024).decode()
+                    if not message:
+                        print("Client disconnected.")
+                        break
+                    print(message)
 
-                if message == 'send_to_robot':
-                    start_camera(q, detector, label_converter)
-                    data_to_send = q.get()
-                    print(data_to_send)
-                    conn.send(data_to_send)
-            finally:
-                time.sleep(2)
+                    if message == 'send_to_robot':
+                        start_camera(q, detector, label_converter)
+                        if q.empty():
+                            print("No object detected, nothing sent to the robot.")
+                            continue
+                        data_to_send = q.get()
+                        print(data_to_send)
+                        conn.send(data_to_send)
+                except (ConnectionResetError, BrokenPipeError) as exc:
+                    print(f"Connection lost: {exc}")
+                    break
+                finally:
+                    time.sleep(2)
 
 if __name__ == "__main__":
     main()

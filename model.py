@@ -1,9 +1,7 @@
 import os
-import utils
 import torch
 import torchvision
 from torchvision import tv_tensors
-from engine import train_one_epoch, evaluate
 from torchvision.io import read_image
 from torchvision.ops.boxes import masks_to_boxes
 from torchvision.transforms.v2 import functional as F
@@ -14,18 +12,23 @@ from torchvision.models.detection.mask_rcnn import MaskRCNNPredictor
 from torchvision.models.detection.ssd import SSDClassificationHead
 from torchvision.transforms import v2 as T
 from torch.utils.data import Dataset
-from torch.utils.tensorboard import SummaryWriter
 
-# Setting up Tensorboard writer
-writer = SummaryWriter('../runs/experiment_1')
+# Global variables. Paths are relative to the repository root.
+GLOBAL_VAR = {'TRAIN_DIR': 'my_pictures.v8i.voc/train',
+              'VAL_DIR': 'my_pictures.v8i.voc/valid',
+              'TEST_DIR': 'my_pictures.v8i.voc/valid',
+              'MODEL_PATH': 'model_chips.pth'}
 
-# Global variables
-GLOBAL_VAR = {'TRAIN_DIR': '../my_pictures.v8i.voc/train',
-              'VAL_DIR': '../my_pictures.v8i.voc/valid',
-              'TEST_DIR': '../my_pictures.v8i.voc/valid',
-              'MODEL_PATH': 'model/model_chips.pth'}
 
-num_classes = 3
+class LabelConverter:
+    """Maps the integer class labels used by the model to human-readable names."""
+
+    LABELS = {1: 'Crunchips', 2: "Lay's"}
+
+    @classmethod
+    def label_to_name(cls, label):
+        """Convert an integer (or tensor) label to its class name."""
+        return cls.LABELS.get(int(label), str(label))
 
 
 class ChipsDataset(torch.utils.data.Dataset):
@@ -192,7 +195,16 @@ def get_transform(train):
 def train_model():
     """
     Train the model.
+
+    Requires `engine.py` and `utils.py` from the torchvision detection reference
+    scripts (https://github.com/pytorch/vision/tree/main/references/detection),
+    placed next to this file. They are only needed for training, so the import
+    is kept local to avoid making them a hard dependency of the inference code
+    in camera_main.py / model_evaluation.py.
     """
+    import utils
+    from engine import train_one_epoch, evaluate
+
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     dataset = ChipsDataset(GLOBAL_VAR['TRAIN_DIR'], get_transform(train=True))
     dataset_test = ChipsDataset(GLOBAL_VAR['VAL_DIR'], get_transform(train=False))

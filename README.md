@@ -2,7 +2,7 @@
 
 
 <p float="center">
-  <img src="https://github.com/arkurpas/Object-detection-ABB-RobotStudio/assets/129556066/c3988a6e-7703-490e-bcae-93ff3a80b005)" width="800" />
+  <img src="https://github.com/arkurpas/Object-detection-ABB-RobotStudio/assets/129556066/c3988a6e-7703-490e-bcae-93ff3a80b005" width="800" />
   <img src="https://github.com/arkurpas/Object-detection-ABB-RobotStudio/assets/129556066/c5d11642-ac5e-401a-9426-c4e48bf7508b" width="800" /> 
 </p>
 
@@ -10,7 +10,7 @@
 ## See it in action
 https://www.youtube.com/watch?v=YAWKSnbmhUU
 
-(The  walkthrough video will be available soon.)
+A full recording of the simulation is also included in `recorded_simulation/`.
 
 ## In short
 The objective of this project was to deploy object detection and recognition models in robotics through the application of computer vision techniques.
@@ -45,23 +45,29 @@ The objective of this project was to deploy object detection and recognition mod
   This project serves as an example of deep learning application. However, there are numerous real-world robot applications where object detection could be implemented. Fine-tuning or transfer learning are invaluable for detecting and segmenting various objects.
 
 
+## Setup
+
+```bash
+pip install -r requirements.txt
+```
+
+The repository uses [Git LFS](https://git-lfs.github.com) to store `model_chips.pth` and the recorded simulation video, so run `git lfs pull` after cloning to fetch the actual binaries (otherwise you'll only get small pointer files).
+
+Training (`model.py:train_model()`) additionally depends on `engine.py` and `utils.py` from the [torchvision detection reference scripts](https://github.com/pytorch/vision/tree/main/references/detection), which are not vendored in this repo — download them into the project root if you want to retrain the model. Running inference (`camera_main.py`, `model_evaluation.py`) does not require them.
+
 ## Files description
 
 * camera_main.py - the main program that needs to be launched before running robots in RobotStudio. It establishes a host server for socket communication between Python and robot code (RAPID language). When the robot sends a message to a socket host, the camera activates to detect an object placed in front of it.
-* model.py - code responsible for model training. It includes functions for loading the SSD model as well as Faster R-CNN and Mask R-CNN.
-* k-mean-filtering.py - code responsible for clustering some input pictures.
+* model.py - model definitions (SSD, Faster R-CNN, Mask R-CNN), the dataset class, the label/class-name mapping, and the training loop.
+* k-means-filtering.py - code responsible for clustering some input pictures.
 * model_evaluation.py - code to evaluate the model's performance with unseen images.
-* polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model. Finnaly segmentation was not used in this project, but I left this piece od code because it can be used anytime.
+* polygon2mask.py - code that loads an XML file created after the annotation process and, based on polygon coordinates, generates a mask for each image. Each mask is represented with its own grayscale color. This step was preparatory for training the Mask R-CNN model. Segmentation was ultimately not used in this project, but this piece of code is left in because it can be useful anytime.
 * OCR.py - The code is responsible for locating a specific word. While it's not utilized in the main program, the concept was to search for previously defined flavors within images
-  
+
 Folders:
 
 * Robots_programs - contain modules with robots programs
 * from_camera_image - object detection example
 * my_pictures.v8i.voc - dataset; contain images obtained after augmentation process in roboflow.
-* recorded_simulation - compelete simulation of process.
-
-
-
-
+* recorded_simulation - complete simulation of process.
 

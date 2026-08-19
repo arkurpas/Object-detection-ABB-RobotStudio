@@ -37,38 +37,26 @@ def kmeans_segmentation(image, num_clusters):
     return segmented_image
 
 
-def process_folder(folder_path, output_folder='../iCloud-Photos/'):
+def process_folder(folder_path, output_folder, num_clusters=10):
     """
-    Process images in the specified folder.
+    Run k-means color segmentation on every image in a folder.
 
     Args:
-        folder_path (str): Path to the folder containing images.
-        output_folder (str): Output folder for processed images.
+        folder_path (str): Path to the folder containing source images.
+        output_folder (str): Output folder for segmented images.
+        num_clusters (int): Number of color clusters to use.
     """
-    files = os.listdir(folder_path)
-    for file_name in files:
-        if file_name.endswith('.JPEG') or file_name.endswith('.png'):
+    os.makedirs(output_folder, exist_ok=True)
+    for file_name in os.listdir(folder_path):
+        if file_name.lower().endswith(('.jpg', '.jpeg', '.png')):
             image_path = os.path.join(folder_path, file_name)
             image = cv2.imread(image_path)
             if image is not None:
-                if 'onion' in folder_path:
-                    num_clusters = 10
-                    # Perform k-means segmentation only if number of clusters is provided
-                    segmented_image = kmeans_segmentation(image, num_clusters)
-                    segmented_image = segmented_image.astype('uint8')
-                    cv2.imwrite(os.path.join(output_folder, f"{file_name.split('.')[0]}_segmented.JPEG"),
-                                cv2.cvtColor(segmented_image, cv2.COLOR_BGR2RGB))
-                elif 'pepper' in folder_path:
-                    num_clusters = 10
-                    # Otherwise, save the original image
-                    segmented_image = kmeans_segmentation(image, num_clusters)
-                    segmented_image = segmented_image.astype('uint8')
-                    cv2.imwrite(os.path.join(output_folder, f"{file_name.split('.')[0]}_segmented.JPEG"),
-                                cv2.cvtColor(segmented_image, cv2.COLOR_BGR2RGB))
+                segmented_image = kmeans_segmentation(image, num_clusters).astype('uint8')
+                cv2.imwrite(os.path.join(output_folder, f"{os.path.splitext(file_name)[0]}_segmented.jpg"),
+                            cv2.cvtColor(segmented_image, cv2.COLOR_BGR2RGB))
 
 
-# Perform k-means operation for images in the 'segmented_images' folder with 10 clusters
-process_folder('../iCloud-Photos/onion')
-
-# Leave images in the 'original_images' folder unchanged
-process_folder('../iCloud-Photos/pepper')
+if __name__ == "__main__":
+    # Example: segment the training images used for annotation.
+    process_folder('my_pictures.v8i.voc/train', 'my_pictures.v8i.voc/train_segmented', num_clusters)
